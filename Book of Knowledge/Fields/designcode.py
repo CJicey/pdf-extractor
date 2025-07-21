@@ -92,7 +92,7 @@ class BuildingCodeExtractor:
         if not code_string:
             return None
 
-        # === STEP 1: Fix fragmented phrases like "INTERNATIONAL BUILDING CODE, 2020"
+        # Fix fragmented phrases
         code_string = re.sub(
             r'\b(INTERNATIONAL\s+BUILDING\s+CODE|IBC)[,\s]+(20\d{2})\b',
             r'\2 IBC',
@@ -100,7 +100,7 @@ class BuildingCodeExtractor:
             flags=re.IGNORECASE
         )
 
-        # === STEP 2: Apply replacements
+        # replacements
         replacements = {
             r'\b2018\s+International\s+Building\s+Code\b': '2018 IBC',
             r'\b2015\s+International\s+Building\s+Code\b': '2015 IBC',
@@ -116,7 +116,7 @@ class BuildingCodeExtractor:
         for pattern, replacement in replacements.items():
             code_string = re.sub(pattern, replacement, code_string, flags=re.IGNORECASE)
 
-        # === STEP 3: Normalize case, split, and deduplicate
+        # Normalize case, split, and deduplicate
         parts = [p.strip().upper() for p in code_string.split(',')]
         unique_cleaned = sorted(set(p for p in parts if p))
 
