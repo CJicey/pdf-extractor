@@ -5,4 +5,4 @@ Source_File,Project_Name,Job_Number,Design_Codes,Risk_Category,Seismic_Design_Ca
 4.pdf,Unknown,Null,"2015 IBC, 2018 2018 NCBC, ACI318-11, ASCE7-05, ASCE7-10, NDS",III,B,D,120 mph
 5.pdf,Unknown,['21.07.107'],THE 2018 IBC,II,C,D,121 mph
 6.pdf,Unknown,Null,Null,Null,Null,Null,Null
-7.pdf,Unknown,['21.02.095'],"ACI318-14, THE 2018 2018 IBC INTERNATIONAL BUILDING CODE",II,D,F,105 mph
+7.pdf,Unknown,['21.02.095'],"2018 IBC, ACI318-14, THE 2018 IBC",II,D,F,105 mph
