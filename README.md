@@ -68,4 +68,19 @@ In this section it will show the different small dependencies needed to run the 
 
 6.) openyxl: pip install openpyxl
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+Very Important Info:
+
+1.) PyTesseract- 
+Make sure this is what the configuration in the code looks like: TESSERACT_PATH = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe". This is where your tesseract path is located and the code pulls from when running through the configuration.
+
+2.) input_folder- 
+Make sure your input_folder (located in the mainextractor.py and MAIN EXECUTION section of the code) equals where your directory is holding the folder that has the pdf meeting notes in them. Example: input_folder = r"C:\\insert\\insert\\insert\\folder insert"
+
+3.) MultiProcessing- 
+When it comes to Multiprocessing it's all based on how many cpu cores your computer has. If you have 8 cpu cores that means you can run 8 processes and if you have 12 then you can run 12 processes. To put it simply if you have 8 processes that means you can extract 8 pdfs at once which drastically speeds up how long it takes to extract info from a folder full of pdfs. So before running the code make sure to chech how many cpu cores your pc has and adjust the number here in the code: "with Pool(processes=min(8, cpu_count())) as pool". This is also located in the MAIN EXECUTOIN section. Finally it is recommended to not go over your cpu core count it will slow down the time or crash the system altogether.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Happy Extracting!!!
