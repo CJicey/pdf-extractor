@@ -46,7 +46,7 @@ Step 1.) To use the OCR extractor second you need pytesseract. Here is the link 
 
 Step 2.) Now before going to the exe and fully installing on your computer make a new folder in program files called "Tesseract-OCR".
 
-Step 3.) Then go to the exe installer and fully install Tesseract on your computer and make sure the file path looks like this "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+Step 3.) Then go to the exe installer and fully install Tesseract on your computer and make sure the file path looks like this "C:\\Program Files\\Tesseract-OCR"
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
