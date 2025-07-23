@@ -12,11 +12,9 @@ So its crucial that this project has an efficent and accurate process to parse m
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Main Dependencies:
+Main Dependencies(Poppler):
 
-In this section I will go over the main more complicated dependencies needed to run the code. These dependencies are needed to run the OCR extractor.
-
-Poppler:
+In this section I will go over the main more complicated dependencies needed to run the code. These dependencies are needed to run the OCR extractor. When done with "Main Dependencies(Poppler)" move on to "Main Dependencies(pytesseract)"
 
 First in the terminal: "pip install pdf2image" after this is done go to step 1
 
@@ -36,13 +34,19 @@ Step 7.) Now select new and then browse
 
 Step 8.) Finally choose the file path of where poppler is located and then select ok. The file path should look exactly like this for the most part: "c:\Program Files\poppler-24.08.0\library\bin"
 
-Pytesseract:
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Main Dependencies(pytesseract):
+
+This is part 2 to the Main Dependencies section.
 
 First in the terminal: "pip install pytesseract" after this is done go to step 1
 
 Step 1.) To use the OCR extractor second you need pytesseract. Here is the link to the site where you download it (Make sure to download "tesseract-ocr-w64-setup-5.5.0.20241111.exe (64 bit)": https://github.com/UB-Mannheim/tesseract/wiki
 
-Step 2.) 
+Step 2.) Now before going to the exe and fully installing on your computer make a new folder in program files called "Tesseract-OCR".
+
+Step 3.) Then go to the exe installer and fully install Tesseract on your computer and make sure the file path looks like this "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
