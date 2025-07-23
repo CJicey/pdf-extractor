@@ -10,22 +10,34 @@ Another reason would be that it will help the younger engineers who may not be t
 
 So its crucial that this project has an efficent and accurate process to parse meeting notes out of the project file. Luckily these meeting notes can be anywhere from 1-5 pages so its not to big in scale.
 
+Main Dependencies:
 
-Dependencies:
+In this section I will go over the main more complicated dependencie needed to run the code. This dependencie is needed to run the OCR extractor.
 
-In this section I will go over the different dependencies needed to run the code.
+Small Dependencies:
+
+In this section I will go over the different small dependencies needed to run the code.
 
 0.) To download all dependencies use:
+
 1.) pandas: 
+
 2.) csv:
+
 3.) os:
+
 4.) pdf2image:
+
 5.) numpy:
+
 6.) pdfplumber:
+
 7.) PyMuPdf(fitz):
+
 8.) cv2: 
+
 9.) re:
+
 10.) time:
 
-11.) OCR Extractor Install Instructions:
 
