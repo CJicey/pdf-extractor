@@ -26,7 +26,7 @@ Small Dependencies:
 
 In this section I will go over the different small dependencies needed to run the code.
 
-0.) To download all dependencies use: pip install -r requirements.txt
+0.) All dependencies use: pip install -r requirements.txt
 
 1.) pandas: pip install pandas
 
