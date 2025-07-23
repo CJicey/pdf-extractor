@@ -14,19 +14,43 @@ So its crucial that this project has an efficent and accurate process to parse m
 
 Main Dependencies:
 
-In this section I will go over the main more complicated dependencie needed to run the code. This dependencie is needed to run the OCR extractor.
+In this section I will go over the main more complicated dependencies needed to run the code. These dependencies are needed to run the OCR extractor.
 
-1.) pdf2image: pip install pdf2image
+Poppler:
 
-2.) pytesseract: pip install pytesseract
+First in the terminal: "pip install pdf2image" after this is done go to step 1
+
+Step 1.) To use the OCR extractor first you need Poppler. Here is the link to the site where you download it (Make sure to only download Release-24.08.0-0.zip): https://github.com/oschwartz10612/poppler-windows/releases/tag/v24.08.0-0
+
+Step 2.) Once Poppler is installed extract the zip and put the poppler file in your program files
+
+Step 3.) Open your "control pannel" then select system security
+
+Step 4.) Now select system then advanced system settings 
+
+Step 5.) Then select Enviorment Variables 
+
+Step 6.) In the user variables section select path and make sure its highlighted then select edit
+
+Step 7.) Now select new and then browse 
+
+Step 8.) Finally choose the file path of where poppler is located. It should look exactly like this for the most part: "c:\Program Files\poppler-24.08.0\library\bin"
+
+Pytesseract:
+
+First in the terminal: "pip install pytesseract" after this is done go to step 1
+
+Step 1.) To use the OCR extractor second you need pytesseract. Here is the link to the site where you download it:
+
+
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Small Dependencies:
 
-In this section I will go over the different small dependencies needed to run the code.
+In this section it will show the different small dependencies needed to run the code and the method to install them.
 
-0.) All dependencies use: pip install -r requirements.txt
+0.) All dependencies: pip install -r requirements.txt
 
 1.) pandas: pip install pandas
 
