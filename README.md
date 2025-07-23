@@ -14,7 +14,7 @@ So its crucial that this project has an efficent and accurate process to parse m
 
 Main Dependencies(Poppler):
 
-In this section I will go over the main more complicated dependencies needed to run the code. These dependencies are needed to run the OCR extractor. When done with "Main Dependencies(Poppler)" move on to "Main Dependencies(pytesseract)"
+In this section I will go over the main and more complicated dependencies needed to run the code. These dependencies are needed to run the OCR extractor. When done with "Main Dependencies(Poppler)" move on to "Main Dependencies(pytesseract)"
 
 First in the terminal: "pip install pdf2image" after this is done go to step 1
 
