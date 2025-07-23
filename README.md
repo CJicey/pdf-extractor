@@ -34,15 +34,15 @@ Step 6.) In the user variables section select path and make sure its highlighted
 
 Step 7.) Now select new and then browse 
 
-Step 8.) Finally choose the file path of where poppler is located. It should look exactly like this for the most part: "c:\Program Files\poppler-24.08.0\library\bin"
+Step 8.) Finally choose the file path of where poppler is located and then select ok. The file path should look exactly like this for the most part: "c:\Program Files\poppler-24.08.0\library\bin"
 
 Pytesseract:
 
 First in the terminal: "pip install pytesseract" after this is done go to step 1
 
-Step 1.) To use the OCR extractor second you need pytesseract. Here is the link to the site where you download it:
+Step 1.) To use the OCR extractor second you need pytesseract. Here is the link to the site where you download it (Make sure to download "tesseract-ocr-w64-setup-5.5.0.20241111.exe (64 bit)": https://github.com/UB-Mannheim/tesseract/wiki
 
-
+Step 2.) 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
