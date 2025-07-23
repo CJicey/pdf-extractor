@@ -1,8 +1,0 @@
-Source_File,Project_Name,Job_Number,Design_Codes,Risk_Category,Seismic_Design_Category,Site_Class,Wind_Speed
-1.pdf,Unknown,['22.00.062'],"2006 IBC, 2018 IBC, 2020 IBC, ACI318-14, AISC360-16, ASCE7-10, ASCE7-16",II,B,D,108 mph
-2.pdf,Unknown,['23.00.110.00'],"2006 IBC, 2020 IBC, 2021 IBC, ACI318-19, AISC360-16, ASCE7-10",II,A,C,106 mph
-3.pdf,Unknown,Null,THE 2018 NCBC,II,Null,B,115 mph
-4.pdf,Unknown,Null,"2015 IBC, 2018 2018 NCBC, ACI318-11, ASCE7-05, ASCE7-10, NDS",III,B,D,120 mph
-5.pdf,Unknown,['21.07.107'],THE 2018 IBC,II,C,D,121 mph
-6.pdf,Unknown,Null,Null,Null,Null,Null,Null
-7.pdf,Unknown,['21.02.095'],"2018 IBC, ACI318-14, THE 2018 IBC",II,D,F,105 mph
