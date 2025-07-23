@@ -1,0 +1,7 @@
+pandas
+pdf2image
+numpy
+pdfplumber
+pymupdf
+opencv-python
+openpyxl
