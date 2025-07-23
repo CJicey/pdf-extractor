@@ -1,4 +1,5 @@
 About the Project:
+
 This project is called the "Book of Knowledge" and the objective is to take company project files that have "meeting notes" (which are in pdf format) and extract them so that we can add it to a central repository and be able to query it for the engineers. 
 
 These meeting notes contain important data about the project: Materials used, calculations used, loads used, etc.
