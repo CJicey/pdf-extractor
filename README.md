@@ -20,7 +20,7 @@ Poppler:
 
 First in the terminal: "pip install pdf2image" after this is done go to step 1
 
-Step 1.) To use the OCR extractor first you need Poppler. Here is the link to the site where you download it (Make sure to only download Release-24.08.0-0.zip): https://github.com/oschwartz10612/poppler-windows/releases/tag/v24.08.0-0
+Step 1.) To use the OCR extractor first you need Poppler. Here is the link to the site where you download it (Make sure to only download "Release-24.08.0-0.zip"): https://github.com/oschwartz10612/poppler-windows/releases/tag/v24.08.0-0
 
 Step 2.) Once Poppler is installed extract the zip and put the poppler file in your program files
 
