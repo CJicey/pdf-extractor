@@ -1,10 +1,11 @@
+from pdfminer.high_level import extract_text as pdfminer_extract_text
 from pdf2image import convert_from_path
 import numpy as np
 import pytesseract
 import pdfplumber
 import fitz
 import cv2
-import re  
+import re
 
 class TextExtractor:
     #pdf extractor
@@ -36,12 +37,25 @@ class TextExtractor:
             return re.sub(r'\s+', ' ', text.strip())
         except Exception:
             return ""
+        
+    # PDFMiner extractor
+    @staticmethod
+    def extract_with_pdfminer(pdf_path, max_pages=5):
+        try:
+            full_text = pdfminer_extract_text(pdf_path)
+            # Optionally limit to `max_pages` manually (PDFMiner doesn't offer a direct page limiter)
+            pages = full_text.split('\f')  # PDFMiner separates pages with form-feed
+            limited_text = "\n".join(pages[:max_pages])
+            return re.sub(r'\s+', ' ', limited_text.strip())
+        except Exception as e:
+            print(f"⚠️ PDFMiner failed for {pdf_path}: {e}")
+            return ""
 
     #ocr extractor
     @staticmethod
-    def extract_with_ocr_fast(pdf_path, dpi=150, max_pages=5):
+    def extract_with_ocr_fast(pdf_path, dpi=150):
         try:
-            images = convert_from_path(pdf_path, dpi=dpi, first_page=1, last_page=max_pages)
+            images = convert_from_path(pdf_path, dpi=dpi)
             text = ""
             for img in images:
                 img_np = np.array(img)

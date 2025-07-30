@@ -1,4 +1,5 @@
 from Fields.seismicdesign import SeismicDesignCategorySearcher  # For searching seismic design categories
+from Fields.seismicresistance import SeismicResistanceSearcher  # For searching seismic resistance systems
 from Fields.riskcategory import RiskCategorySearcher            # For searching risk categories
 from Fields.designcode import BuildingCodeSearcher              # For searching engineering codes
 from Fields.projectname import ProjectNameSearcher              # For searching project names
@@ -8,39 +9,22 @@ from Fields.jobnumber import JobNumberSearcher                  # For searching 
 from Fields.materials import MaterialsSearcher                  # For searching materials
 from Fields.location import LocationSearcher                    # For searching location
 from Fields.alldata import AllDataExtractor                     # For extracting all raw data 
+
 from Extractor.extractor import TextExtractor                   # For extracting text from PDF files
 from CSVhandler.csvwriter import CSVHandler                     # For writing to CSV
+
 from multiprocessing import Pool, cpu_count                     # For Multi Processing
 from datetime import datetime                                   # For timestamping the output file 
 from time import time                                           # For timing the execution
-import pytesseract                                              # For OCR
+
+import pytesseract                                              # For OCR                                     
 import os                                                       # For file operations
 
 # === CONFIGURATION ===
 TESSERACT_PATH = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
 
-# === SMART TEXT EXTRACTION ===
-def extract_text_smart(pdf_path, return_raw=False):
-    text_parts = []
-
-    for extractor in [TextExtractor.extract_with_pdfplumber, TextExtractor.extract_with_pymupdf]:
-        text = extractor(pdf_path)
-        if text.strip():
-            text_parts.append(text)
-
-    ocr_text = TextExtractor.extract_with_ocr_fast(pdf_path, max_pages=5)
-    if ocr_text.strip():
-        text_parts.append(ocr_text)
-
-    combined_text = "\n".join(text_parts)
-
-    fields = search_engineering_fields(combined_text)
-    raw_text_container = AllDataExtractor(combined_text)
-
-    return (fields, raw_text_container) if return_raw else fields
-
-# === FIELDS ===
+# === FIELD SEARCHING ===
 def search_engineering_fields(text):
     code_searcher = BuildingCodeSearcher()
     risk_searcher = RiskCategorySearcher()
@@ -51,6 +35,7 @@ def search_engineering_fields(text):
     jobnumber_searcher = JobNumberSearcher()
     materials_searcher = MaterialsSearcher()
     location_searcher = LocationSearcher()
+    seismicR_searcher = SeismicResistanceSearcher()
 
     design_codes = code_searcher.search_codes(text)
     standardized_codes = code_searcher.standardize_design_codes(design_codes)
@@ -62,19 +47,20 @@ def search_engineering_fields(text):
     standardized_site = site_searcher.standardize(site_class)
 
     seismic_design_category = seismic_searcher.search(text)
+    seismic_resistance_system = seismicR_searcher.search(text)
     wind_speed = wind_searcher.search(text)
     project_name = project_searcher.search(text)
     job_number = jobnumber_searcher.search(text)
     materials = materials_searcher.search(text)
     location_name = location_searcher.search(text)
 
-    # Print debug info for each field
     print("--------------------------------")
-    print("🎯 Raw project name:", project_name)
     print("🎯 Raw job number:", job_number)
+    print("🎯 Raw project name:", project_name)
     print("🎯 Raw location name:", location_name)
     print("🎯 Raw design codes:", design_codes)
     print("🎯 Raw materials:", materials)
+    print("🎯 Raw seismic resistance system:", seismic_resistance_system)
     print("🎯 Raw risk category:", risk_category)
     print("🎯 Raw site class:", site_class)
     print("🎯 Raw seismic design category:", seismic_design_category)
@@ -82,32 +68,66 @@ def search_engineering_fields(text):
     print("🎯 Raw all data:", "See Excel file in results folder")
 
     return {
-        "project_name": project_name,
         "job_number": job_number,
+        "project_name": project_name,
+        "location": location_name,
         "design_code": standardized_codes,
         "materials": materials,
+        "seismic_resistance_system": seismic_resistance_system,
         "risk_category": standardized_risk,
         "site_class": standardized_site,
         "seismic_design_category": seismic_design_category,
         "wind_speed": wind_speed,
-        "location": location_name,
     }
 
-# === PARALLEL WORKER FUNCTION ===
+# === SMART TEXT EXTRACTION ===
+def extract_text_smart(pdf_path, return_raw=False):
+    text_parts = []
+
+    extractors = [
+        TextExtractor.extract_with_pdfplumber,
+        TextExtractor.extract_with_pymupdf,
+        TextExtractor.extract_with_pdfminer,
+        lambda p: TextExtractor.extract_with_ocr_fast(p)  
+    ]
+
+    for extractor in extractors:
+        try:
+            text = extractor(pdf_path)
+            char_count = len(text.strip())
+            print(f"✅ {extractor.__name__} extracted {char_count} characters.")
+            if char_count > 0:
+                text_parts.append(text)
+            else:
+                print(f"⚠️ {extractor.__name__} found no text.")
+        except Exception as e:
+            print(f"❌ Extractor {extractor.__name__} failed: {e}")
+
+    combined_text = "\n".join(text_parts)
+
+    # === Raw extracted text ===
+    debug_txt_output_path = os.path.join("results", f"{os.path.basename(pdf_path)}_textdump.txt")
+    with open(debug_txt_output_path, "w", encoding="utf-8") as f:
+        f.write(combined_text)
+
+    # === Structured field search and return ===
+    fields = search_engineering_fields(combined_text)
+    raw_text_container = AllDataExtractor(combined_text)
+
+    return (fields, raw_text_container) if return_raw else fields
+
+# === PARALLEL WORKER ===
 def process_pdf_file(pdf_path):
     try:
         filename = os.path.basename(pdf_path)
-        print(f"\n📄 Processing: {filename}")
-        print()
+        print(f"\n📄 Processing: {filename}\n")
 
         start = time()
         fields, raw_text_obj = extract_text_smart(pdf_path, return_raw=True)
-
         duration = time() - start
         print(f"⏱️ Processing time for {filename}: {duration:.2f} seconds")
         print("--------------------------------")
 
-        # Merge raw text into the extracted field dictionary
         complete_data = {**fields, **raw_text_obj.to_dict()}
         return (filename, complete_data)
 
@@ -144,11 +164,8 @@ if __name__ == "__main__":
         if fields:
             fields["Source_File"] = filename
             all_results.append(fields)
-
-            # Write structured data to CSV
             CSVHandler.write_to_csv(fields, output_csv, filename)
 
-    # Write all raw text to a separate Excel file
     CSVHandler.write_raw_text_to_excel(all_results, output_xlsx)
 
     total_duration = time() - total_start

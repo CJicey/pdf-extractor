@@ -4,7 +4,7 @@ import os
 
 class CSVHandler:
     headers = [
-        "Source_File", "Project_Name", "Location_Name", "Job_Number", "Design_Codes", "Materials",
+        "Source_File", "Job_Number", "Project_Name", "Location_Name", "Design_Codes", "Materials", "Seismic_Resistance_System",
         "Risk_Category", "Seismic_Design_Category",
         "Site_Class", "Wind_Speed", "All_Data"
     ]
@@ -35,16 +35,17 @@ class CSVHandler:
     def write_to_csv(data_dict, csv_file, source_file):
         complete_data = {
             "Source_File": source_file,
+            "Job_Number": data_dict.get("job_number") or "Null",
             "Project_Name": data_dict.get("project_name") or "Null",
             "Location_Name": data_dict.get("location_name") or "Null",
-            "Job_Number": data_dict.get("job_number") or "Null",
             "Design_Codes": data_dict.get("design_code") or "Null",
             "Materials": data_dict.get("materials") or "Null",
+            "Seismic_Resistance_System": data_dict.get("seismic_resistance_system") or "Null",
             "Risk_Category": data_dict.get("risk_category") or "Null",
             "Seismic_Design_Category": data_dict.get("seismic_design_category") or "Null",
             "Site_Class": data_dict.get("site_class") or "Null",
             "Wind_Speed": data_dict.get("wind_speed") or "Null",
-            "All_Data": "See Excel file in results folder"  # Tell user where to find raw text
+            "All_Data": "See Excel file in results folder"  # Tells user where to find raw text
         }
 
         file_exists = os.path.isfile(csv_file)

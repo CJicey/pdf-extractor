@@ -6,24 +6,31 @@ class MaterialsSearcher:
         self.materials = [
             # Concrete-related
             "CONCRETE", "PRECAST", "TILT-UP", "CAST-IN-PLACE", "REINFORCED CONCRETE",
-            
+
             # Steel-related
-            "STEEL", "STRUCTURAL STEEL", "LIGHT GAUGE", "COLD-FORMED", "HOT-ROLLED", "WELDED STEEL", "METAL DECK", "BAR JOIST",
+            "STEEL", "STRUCTURAL STEEL", "LIGHT GAUGE", "COLD-FORMED", "HOT-ROLLED",
+            "WELDED STEEL", "METAL DECK", "BAR JOIST", "STEEL ROOF DECK",  # Added here
 
             # Masonry-related
             "MASONRY", "CMU", "BRICK", "CONCRETE MASONRY", "STONE", "BLOCK WALL",
 
             # Wood-related
-            "WOOD", "TIMBER", "HEAVY TIMBER", "GLULAM", "LVL", "OSB", "PLYWOOD", "ENGINEERED WOOD", "JOISTS",
+            "WOOD", "TIMBER", "HEAVY TIMBER", "GLULAM", "LVL", "OSB", "PLYWOOD",
+            "ENGINEERED WOOD", "JOISTS",
 
             # Aluminum / other metals
             "ALUMINUM", "COPPER", "BRASS", "GALVANIZED STEEL", "ZINC",
 
             # Composite systems
-            "COMPOSITE SLAB", "FIBERGLASS", "FRP", "CARBON FIBER", "GFRP", "PLASTIC", "PVC",
+            "COMPOSITE SLAB", "FIBERGLASS", "FRP", "CARBON FIBER", "GFRP",
+            "PLASTIC", "PVC",
 
             # Structural systems / misc
-            "TRUSS", "CABLE", "ANCHOR", "REBAR", "FASTENERS", "WELD", "BOLTED CONNECTION", "SHEAR WALL", "FOUNDATION"
+            "TRUSS", "CABLE", "ANCHOR", "REBAR", "FASTENERS", "WELD",
+            "BOLTED CONNECTION", "SHEAR WALL", "FOUNDATION",
+
+            # Deep foundations / additions
+            "DRILLED PIERS"  # ✅ Added
         ]
 
         self.pattern = re.compile(
@@ -39,4 +46,3 @@ class MaterialsSearcher:
         # Remove duplicates, normalize to uppercase
         unique = list(dict.fromkeys(match.upper() for match in matches))
         return unique
-        
