@@ -105,7 +105,7 @@ def extract_text_smart(pdf_path, return_raw=False):
 
     combined_text = "\n".join(text_parts)
 
-    # === Raw extracted text ===
+    # === RAW EXTRACTED TEXT ===
     debug_txt_output_path = os.path.join("results", f"{os.path.basename(pdf_path)}_textdump.txt")
     with open(debug_txt_output_path, "w", encoding="utf-8") as f:
         f.write(combined_text)
