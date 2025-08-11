@@ -127,7 +127,7 @@ def process_pdf_file(pdf_path):
 
 # === MAIN EXECUTION ===
 if __name__ == "__main__":
-    input_folder = r"C:\\Users\\leben\\Downloads\\BOK_PDFs"
+    input_folder = r"C:\\Users\\CalebJohnson\\Downloads\\BOK_PDFs"
     timestamp = datetime.now().strftime("%Y-%m-%d")
     output_dir = "Results"
     os.makedirs(output_dir, exist_ok=True)
@@ -143,7 +143,7 @@ if __name__ == "__main__":
         if f.lower().endswith(".pdf")
     ]
 
-    with Pool(processes=min(8, cpu_count())) as pool:
+    with Pool(processes=min(12, cpu_count())) as pool:
         results = pool.map(process_pdf_file, pdf_files)
 
     all_results = []
