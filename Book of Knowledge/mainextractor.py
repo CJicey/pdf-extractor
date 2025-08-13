@@ -143,7 +143,7 @@ if __name__ == "__main__":
         if f.lower().endswith(".pdf")
     ]
 
-    with Pool(processes=min(12, cpu_count())) as pool:
+    with Pool(processes=min(10, cpu_count())) as pool:
         results = pool.map(process_pdf_file, pdf_files)
 
     all_results = []
