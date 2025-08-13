@@ -3,6 +3,9 @@ import re
 class SeismicResistanceSearcher:
     def __init__(self):
         self.patterns = [
+            # ✅ NEW: Exact match for detailed variant
+            r"STRUCTURAL\s+STEEL\s+SYSTEMS?\s+NOT\s+SPECIFICALLY\s+DETAILED\s+FOR\s+SEISMIC\s+RESISTANCE",
+
             # 🔹 Non-capturing + DESIGNED variant
             r"(?:STRUCTURAL\s+)?STEEL\s+SYSTEMS?\s+NOT\s+SPECIFICALLY\s+DESIGNED\s+FOR\s+SEISMIC\s+RESISTANCE",
 
