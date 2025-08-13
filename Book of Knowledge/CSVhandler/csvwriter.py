@@ -9,10 +9,10 @@ class CSVHandler:
     ]
 
     @staticmethod
-    def prompt_clear_all(csv_file, results_folder):
+    def prompt_clear_all(csv_file, results_folder, general_notes_folder=None):
         # === Clear CSV if it exists ===
         if os.path.exists(csv_file):
-            user_input = input(f"\n⚠️ File '{csv_file}' already exists. Clear it? (y/n): ").lower()
+            user_input = input(f"\n⚠️  File '{csv_file}' already exists. Clear it? (y/n): ").lower()
             if user_input == 'y':
                 with open(csv_file, 'w', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
@@ -21,19 +21,45 @@ class CSVHandler:
             else:
                 print("➡️ Appending to existing CSV.")
 
-        # === Clear .txt files in results folder ===
-        txt_files = [f for f in os.listdir(results_folder) if f.lower().endswith(".txt")]
-        if txt_files:
-            user_input = input(f"\n⚠️ {len(txt_files)} text dump(s) found in '{results_folder}'. Clear them? (y/n): ").lower()
-            if user_input == 'y':
-                for txt_file in txt_files:
-                    os.remove(os.path.join(results_folder, txt_file))
-                print("🧹 Text dumps cleared.")
-            else:
-                print("➡️ Keeping existing text dumps.")
+        # === Clear raw text dump files ===
+        if os.path.exists(results_folder):
+            text_dumps = [
+                f for f in os.listdir(results_folder)
+                if f.lower().endswith("_textdump.txt")
+            ]
+            if text_dumps:
+                user_input = input(f"\n⚠️  {len(text_dumps)} raw text dump(s) found. Clear them? (y/n): ").lower()
+                if user_input == 'y':
+                    for f in text_dumps:
+                        os.remove(os.path.join(results_folder, f))
+                    print("🧹 Raw text dumps cleared.")
+                else:
+                    print("➡️ Keeping existing raw text dumps.")
+
+        # === Clear general notes files ===
+        if general_notes_folder and os.path.exists(general_notes_folder):
+            general_notes = [
+                f for f in os.listdir(general_notes_folder)
+                if f.lower().endswith(" - general notes.txt") or f.lower().startswith("general_notes_")
+            ]
+            if general_notes:
+                user_input = input(f"\n⚠️  {len(general_notes)} general notes file(s) found. Clear them? (y/n): ").lower()
+                if user_input == 'y':
+                    for f in general_notes:
+                        os.remove(os.path.join(general_notes_folder, f))
+                    print("🧹 General Notes files cleared.")
+                else:
+                    print("➡️ Keeping existing General Notes files.")
+        elif general_notes_folder:
+            print(f"📁 General Notes folder '{general_notes_folder}' does not exist. Skipping.")
 
     @staticmethod
     def write_to_csv(data_dict, csv_file, source_file):
+        # Ensure the parent directory for the CSV exists
+        csv_dir = os.path.dirname(csv_file)
+        if csv_dir:  # only mkdir if a directory is actually present in the path
+            os.makedirs(csv_dir, exist_ok=True)
+
         complete_data = {
             "Source_File": source_file,
             "Job_Number": data_dict.get("job_number") or "Null",
