@@ -9,14 +9,14 @@ from Fields.materials import MaterialsSearcher                  # For searching 
 from Fields.alldata import AllDataExtractor                     # For extracting all raw data 
  
 from Extractor.extractor import TextExtractor                   # For extracting text from PDF files
-from CSVhandler.csvwriter import CSVHandler                     # For writing to CSV
-from CSVhandler.txtseperator import PageDumpWriter              # Sepreates pages in txt file 
+from Datahandler.csvwriter import CSVHandler                    # For writing to CSV
+from Datahandler.txtseperator import PageDumpWriter             # Sepreates pages in txt file
 
 from multiprocessing import Pool, cpu_count                     # For Multi Processing
 from datetime import datetime                                   # For timestamping the output file 
 from time import time                                           # For timing the execution
 
-import pytesseract                                              # For OCR                                     
+import pytesseract                                              # For OCR                                 
 import os                                                       # For file operations
 
 # === CONFIGURATION ===
@@ -111,9 +111,9 @@ def extract_text_smart(pdf_path, return_raw: bool = False):
     text_parts = []
 
     extractors = [
-        TextExtractor.extract_with_pdfplumber,   # list[str] or str depending on impl
-        TextExtractor.extract_with_pymupdf,      # rotation-aware str
-        TextExtractor.extract_with_pdfminer,     # str
+        TextExtractor.extract_with_pdfplumber,             # list[str] or str depending on impl
+        TextExtractor.extract_with_pymupdf,                # str
+        TextExtractor.extract_with_pdfminer,               # str
         lambda p: TextExtractor.extract_with_ocr_fast(p),  # str (OCR fallback)
     ]
 
@@ -131,21 +131,20 @@ def extract_text_smart(pdf_path, return_raw: bool = False):
             name = getattr(extractor, "__name__", "extractor")
             print(f"❌ Extractor {name} failed: {e}")
 
-    combined_text = "\n".join([t for t in text_parts if t])
+    # Combine all extractor outputs (no mirrored-text fixing)
+    combined_text = "\n".join([t for t in text_parts if t]) if text_parts else ""
 
-    # Write the SAME dump file, but segmented by page (overwrites same filename)
-    debug_txt_output_path = os.path.join("Results", f"{os.path.basename(pdf_path)}_textdump.txt")
+    # Write page-segmented dump from the combined text
+    debug_txt_output_path = os.path.join(
+        "TxT_Results", f"{os.path.basename(pdf_path)}_textdump.txt"
+    )
     try:
         PageDumpWriter().write_by_page(pdf_path, debug_txt_output_path, combined_text)
         print(f"💾 Wrote page-segmented dump: {debug_txt_output_path}")
     except Exception as e:
-        # Fallback: original combined text
-        os.makedirs(os.path.dirname(debug_txt_output_path), exist_ok=True)
-        with open(debug_txt_output_path, "w", encoding="utf-8") as f:
-            f.write(combined_text)
-        print(f"⚠️ Page dump fallback (combined text): {e}")
+        print(f"⚠️ Page dump failed (continuing): {e}")
 
-    # Downstream uses the original combined text
+    # Downstream uses the raw combined text
     fields = search_engineering_fields(combined_text)
     raw_text_container = AllDataExtractor(combined_text)
 
@@ -174,11 +173,11 @@ if __name__ == "__main__":
     from multiprocessing import Pool, cpu_count
     from datetime import datetime
 
-    input_folder = r"C:\\Users\\leben\\Downloads\\BOK_PDFs All"
+    input_folder = r"C:\\Users\\leben\\Downloads\\BOK_PDFs"
     timestamp = datetime.now().strftime("%Y-%m-%d")
 
-    output_dir = "CSV"   
-    results_dir = "Results"          # keep for text dumps
+    output_dir = "CSV_Result"   
+    results_dir = "TxT_Results"          # keep for text dumps
 
     # Only create the Results directory; do NOT create CSV_Txt Results
     os.makedirs(results_dir, exist_ok=True)
@@ -211,3 +210,4 @@ if __name__ == "__main__":
     total_duration = time() - total_start
     print(f"\n⏳ Total processing time for all PDFs: {total_duration:.2f} seconds")
     print("✅ Structured data saved to:", output_csv)
+
