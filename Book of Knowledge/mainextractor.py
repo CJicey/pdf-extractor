@@ -11,7 +11,6 @@ from Fields.alldata import AllDataExtractor                     # For extracting
 from Datahandler.txtseperator import PageDumpWriter             # Sepreates pages in txt file 
 from Extractor.extractor import TextExtractor                   # For extracting text from PDF files
 from Datahandler.csvwriter import CSVHandler                    # For writing to CSV
-from Chunk.chunker import chunking
 
 from multiprocessing import Pool, cpu_count                     # For Multi Processing
 from datetime import datetime                                   # For timestamping the output file 
@@ -145,30 +144,7 @@ def extract_text_smart(pdf_path, return_raw: bool = False):
         with open(debug_txt_output_path, "w", encoding="utf-8") as f:
             f.write(combined_text)
         print(f"⚠️ Page dump fallback (combined text): {e}")
-
-    # ✅ CHUNKING (uses the dump file with PAGE markers)
-    ck = chunking()
-    chunks = ck.chunk_from_page_dump_file(
-        debug_txt_output_path,
-        max_chunk_chars=1200,
-        overlap=150,
-    )
-    print(f"🧩 Built {len(chunks)} chunks")
-
-    # (Optional) save chunks for debugging / ingestion preview
-    chunks_path = os.path.join("Txt_Results", f"{os.path.basename(pdf_path)}_chunks.txt")
-    try:
-        with open(chunks_path, "w", encoding="utf-8") as cf:
-            for i, ch in enumerate(chunks, 1):
-                header = ch.get("header") or "None"
-                cf.write(
-                    f"----- CHUNK {i} | page={ch['page']} | strategy={ch['strategy']} | header={header} -----\n"
-                    f"{ch['text']}\n\n"
-                )
-        print(f"🗂️  Wrote chunks file: {chunks_path}")
-    except Exception as e:
-        print(f"⚠️ Could not write chunks file: {e}")
-
+        
     # Downstream uses the original combined text
     fields = search_engineering_fields(combined_text)
     raw_text_container = AllDataExtractor(combined_text)
